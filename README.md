@@ -12,3 +12,5 @@ Describes thought process behind a bit manipulation question. Converting a bits 
 Discusses stacks, queues, maps, sets, and the differences between interfaces and abstract classes.
 5. **Trees and Traversals**
 Provides an introduction to trees, binary search trees, and traversals on those trees.
+6. **Final Review Resources**
+Provides a presentation on Comparative and Counting based sorts, 2-3 trees and LLRBs and a video reviewing concepts on Comparative Sorting algorithms.
