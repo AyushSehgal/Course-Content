@@ -14,3 +14,4 @@ Discusses stacks, queues, maps, sets, and the differences between interfaces and
 Provides an introduction to trees, binary search trees, and traversals on those trees.
 6. **Final Review Resources**
 Provides a presentation on Comparative and Counting based sorts, 2-3 trees and LLRBs and a video reviewing concepts on Comparative Sorting algorithms.
+Link to video: https://drive.google.com/file/d/1doiMilnll1ls1muAjW3e0Itwv4FrLv3r/view?usp=sharing
