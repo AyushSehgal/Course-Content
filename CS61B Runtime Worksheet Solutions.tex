@@ -1,0 +1,230 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[lmargin=1in,rmargin=1in,tmargin=1in,bmargin=1in]{geometry}
+\usepackage{worksheet}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+% -------------------
+% Content
+% -------------------
+\begin{document}
+\worksheet{Runtime Practice - Solutions}
+
+
+% Question 1
+\problem Orders of Growth. 
+\begin{enumerate}[(a)]
+    \item Simplify using Big-O Notation: $N^{2} + NlogN + 1000N + 6$
+        \pspace
+        \textcolor{blue}{This is a sample text in blue.}
+        \pspace
+    \item Calculate the following limit:
+    $\lim_{n \to \infty} \frac{n^{2}}{2^{n}}$
+    \pspace
+    \pspace
+    \pspace
+    \pspace
+    \pspace
+    \item What does the result of the above limit imply about the exponential and polynomial runtimes. 
+    \textit{Hint: Is one always greater (grows faster) than the other?}
+    \pspace
+    \pspace
+    \pspace
+    \pspace
+    \pspace
+    \item True or False: If function f has $\mathcal{O}(n)$ and $\Omega(1)$, its tight bound is always found by taking the average of n and 1 giving: $\Theta(n)$
+    \pspace
+    \pspace
+    \pspace
+    \pspace
+    \pspace
+\end{enumerate}
+\pspace
+\newpage
+
+
+% Question 2
+\problem Iteration
+\\ 
+What is the runtime of the following functions?
+\begin{lstlisting}
+    public static void loopingMore(int[] array) {
+        int n = array.length;
+        for (int i = 0; i < 3*n*n*n; i++) {
+            System.out.println('I love you');
+        }
+    }
+\end{lstlisting}
+\pspace
+\pspace
+\pspace
+\pspace
+\begin{lstlisting}
+    public static void doubleLoopingHalf(int n) {
+        for (int i = 0; i < n; i++) {
+            for (int j = n; j > 0; j = j / 2) {
+                System.out.println('I love you');
+            }
+        }
+    }
+\end{lstlisting}
+\pspace
+\pspace
+\pspace
+\pspace
+
+\begin{lstlisting}
+    public static void weirdLooping(int n) {
+        for (int i = 0; i < n; i++) {
+            int num = Math.pow(2, i + 1) - 1;
+            for (int j = 0; j < num; j++) {
+                System.out.println('I love you');
+            }
+        }
+    }
+\end{lstlisting}
+\pspace
+\pspace
+\pspace
+\pspace
+\pspace
+\newpage
+
+
+% Question 3
+\problem Recursion
+\\
+\textit{Practice using the Work Per Layer Summation Formula}
+\begin{lstlisting}
+    public static void mergeSort(int[] arr, int l, int r) {
+        if (l < r) {
+            // Compute Middle Index
+            int m = (l + r) / 2
+            
+            mergeSort(arr, l, m);
+            mergeSort(arr, m+1, r);
+            
+            merge(arr, l, m, r); // Runs in linear time 
+        }
+    }
+\end{lstlisting}
+\pspace
+\pspace
+\pspace
+\pspace
+
+\begin{lstlisting}
+    public static void thinTree(int n) {
+        if (N <= 1) {return;}
+        else {
+            thinTree(2);
+            thinTree(n / 2);
+        }
+        
+    }
+\end{lstlisting}
+\pspace
+\pspace
+\pspace
+\pspace
+
+\begin{lstlisting}
+    public static void splitter(int n) {
+        if (N == 1) {return;}
+        else {
+            int i = 0;
+            while (i < n) {
+                i++
+                System.out.println(i);
+            }
+            return splitter(n / 3) + splitter(2n / 3);
+        }
+        
+    }
+\end{lstlisting}
+\newpage
+
+
+
+
+% Question 4
+\problem Mutual Recursion 
+\\
+\textit{The following problem has been adapted from Prof. Hug's Sp15 Midterm 2}
+\\
+\\
+State the runtime of each function start with f1.
+\begin{lstlisting}
+    public static void f1(int n) {
+        for (int i = 0; i < 2*n; i++) {
+            System.out.println('Welcome');
+        }
+    }
+\end{lstlisting}
+
+\begin{lstlisting}
+    public static void f2(int n) {
+        if (n == 0) { return; }
+        f2(n / 3);
+        f1(n);
+        f2(n / 3);
+        f1(n);
+        f2(n / 3);
+    }
+\end{lstlisting}
+
+\begin{lstlisting}
+    public static void f3(int n) {
+        if (n == 0) { return; }
+        f3(n - 1);
+        f1(16);
+        f3(n - 1);
+    }
+\end{lstlisting}
+
+\begin{lstlisting}
+    public static void f4(int n) {
+        if (n == 0) { return; }
+        f4(n - 1);
+        f1(16);
+        f1(n);
+        f4(n - 1);
+    }
+\end{lstlisting}
+
+\begin{lstlisting}
+    public static void f5(int n, int m) {
+        if (m <= 0) {
+            return;
+        } else {
+            for (int i = 0; i < n; i++) {
+                f5(n, m-1);
+            }
+        }
+    }
+\end{lstlisting}
+
+
+
+\end{document}
