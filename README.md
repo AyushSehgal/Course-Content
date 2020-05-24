@@ -2,8 +2,8 @@
 Is a working repository of all course content I have created for UC Berkeley EECS classes.
 
 ## Index of Files and Folders 
-1. **CS61B Runtime Overview Worksheet**:
-Developed to help students get used to asymptotic analysis with programs in Java. 
+1. **CS61B Runtime Overview Worksheet and Guide**:
+Developed to help students get used to asymptotic analysis with programs in Java. Folder contains a worksheet with solutions and a guide walking through the theory behind asymptotic analysis. 
 2. **Balanced Tree Intro**
 Notes on a mini lecture on the motivation behind balanced trees, namely: 2-3 Trees and LLRBs.
 3. **Bits Question Process**
