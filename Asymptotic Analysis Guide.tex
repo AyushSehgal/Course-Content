@@ -1,5 +1,28 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
 
 \title{Asymptotic Analysis Guide}
 \author{Ayush Sehgal}
@@ -17,6 +40,70 @@ There are two metrics we can use when we discuss asymptotics:
     \item Time Complexity
     \item Space Complexity
 \end{enumerate}
-Note! It is not necessarily the case that the faster running algorithm is always better, a really fast algorithm might waste a lot of space for instance, or may not be possible to implement given the computers/tools we have today. 
+Note! It is not necessarily the case that the faster running algorithm is always better, a really fast algorithm might waste a lot of space for instance, or may not be possible to implement given the computers/tools we have today. \\
+\newline
+\textbf{Time Complexity} has to do with how the program scales with a given input, this could mean how many times does the program run or how many recursive calls does it make as the input size increases. Essentially time complexity has to do with how fast your program is running. \\
+\textbf{Space Complexity} has to do with how much memory does the program require. So you may make decisions like "do I use an array" or "do I store everything as integers?"\\
+\newpage
+\section{Orders of Growth (Functions)}
+As you can see, complexity analysis has to do with the input to the program. That is what we are going to be using to determine if the program runs with appropriate time and uses the amount of space we want it to. The logic behind this is we want to know under what conditions does the program run super fast and under what conditions (if any) the program might take ages. So we want to provide bounds to our program so we better understand whats the type/size of input that is considered a best case scenario for the program and what type/size of input is considered a worst case scenario. These upper and lower bounds per say, will help us also make claims about average runtime or average space usage. In other cases, there may not be much variation in the upper and lower bound, they may be the same, so in this scenario we can provide what we call a tight bound. \\
+We use input size here because this type of asymptotic analysis is different from what happens in the hardware level. The true speed of programs varies from device to device, but that is not what we are concerned with here. We want to be able to generalize our notions of runtime and space complexity and not rely on the machine structures that exist underneath. \\
+The functions or orders of growth you may encounter are: 
+\begin{itemize}
+    \item Constant (1)
+    \item Logarithmic ($logn$)
+    \item Linear (n)
+    \item Linearithmic ($nlogn$)
+    \item Polynomial ($n^2$)
+    \item Exponential ($2^n$)
+    \item Factorial ($n!$)
+\end{itemize}
+What's the deal with this n? Right, this is generally used to denote the size of the input (so the size of the array if it is an array that you are inputting to the program). Because again, we are dealing with how our function reacts to the input. 
+\newpage
+\section{Notation}
+Now, how do you use the functions above and denote them as lower-bounds, upper-bounds, tight-bounds, and average-case-bounds?
+
+\begin{itemize}
+    \item Lower Bounds ($\Omega$) \\
+        Big-Omega is the symbol we use for this, when we are talking about time complexity this is saying our function cannot run faster than the function in question. \\
+        Example: $\Omega(n)$ means the program we are discussing cannot run faster than linear time and if we are talking about space complexity, at a minimum requires n space. 
+    \item Upper Bounds ($\mathcal{O}$) \\
+        Big-O is the symbol we use for upper bounds, so we are saying the function cannot run slower than this run time, or cannot use more than this much space. 
+    \item Tight Bounds ($\Theta$) \\
+        Big-Theta is a tight bound, which is essentially defined to be the case when our lower bound and upper bound of the funtion are the same. So if my function is $\Omega(nlogn)$ and $\mathcal{O}(nlogn)$, then we can safely say it is $\Theta(nlogn)$.
+    
+\end{itemize}
+
+\subsection*{Warnings:}
+\begin{itemize}
+    \item $\Theta$ bounds are generally stronger than $\Omega$ or $\mathcal{O}$ because when we tight bound something we know for sure its upper and lower bound are the same. 
+    \item Saying my function is $\mathcal{O}(n)$ and $\Theta(n)$ is not interchangeable. $\mathcal{O}(n)$ is saying the function cannot ever run slower than n, whereas with $\Theta(n)$ we are saying it will generally run in n, but may be able to get a worse or better runtime in some extraneous cases. 
+    \item It is tempting to think of $\Omega$, our lower bound and $\mathcal{O}$, our upper bound as best and worst case respectively. But this is not always true. The reason for this is rather subtle, it is because your best case might have multiple scenarios that themselves can be lower and upper bounded and the same goes for the worst case. Lets deduce this in an example on the next page.
+\end{itemize}
+\newpage
+\begin{lstlisting}
+    public static void f1(int n) {
+        if (n < 10) {
+            if (n == 0) {
+                return 1;
+            } else {
+                f2(n); // runs in logn time
+            }
+        } else {
+            if (n == 10) {
+                f3(n); // runs in nlogn time
+            } else {
+                for (int i = 0; i < 2*n; i++) {
+                    System.out.println('Hello');
+                }
+            }
+        }
+    }
+\end{lstlisting}
+When discussing best case, we can see that the best case happens when $n < 10$, because the two operations that happen there are either constant or logarithmic, whereas for the else case there is an option of nlogn and n. The problem with this example is within the best case we have lower and upper bounds ($\Omega(1)$ and $\mathcal{O}(logn)$ respectively). Within our worst case we have a lower bound of $\Omega(n)$ if we hit the else case and an upper bound of $\mathcal{O}(nlogn)$ if we hit the if case. So our $\Omega$ and $\mathcal{O}$ doesn't capture this intricacy and for that reason cannot be used interchangeably with the terms "best case" and "worst case". \\
+Therefore be careful when using this notation, $\Omega$ and $\mathcal{O}$ are more general statements, they don't take into account specific scenarios. "Best Case" and "Worst Case" are more informal terms used to holistically and more informally discuss run times and space complexity. 
+
+\section{Limits}
+\section{Amortization}
 
 \end{document}
